@@ -1,0 +1,4 @@
+tenant = "OTC-EU-DE-00000000001000018693"
+username = "darin"
+password = "2Dora6buk%!."
+auth_url = "https://iam.eu-de.otc.t-systems.com:443/v3"

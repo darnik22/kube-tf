@@ -1,0 +1,3 @@
+#!/bin/bash
+echo Killing openvpn-kube process ...
+ps -ef | grep openvpn-kube | sudo kill `awk '{print $2}'`

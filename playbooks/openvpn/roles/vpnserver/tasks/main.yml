@@ -1,0 +1,176 @@
+- name: Set ipv4 forwarding
+  become: yes
+  become_user: root
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    sysctl_set: yes                     
+- name: Install OpenVPN and easy-rsa
+  become: yes
+  become_user: root
+  apt:
+    package: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - openvpn
+    - easy-rsa
+- name: Check for {{ ca_dir }}
+  stat:
+    path: "{{ ca_dir }}"
+  register: check_ca_dir
+- name: mkdir ca
+  shell: make-cadir {{ ca_dir }}
+  when: not check_ca_dir.stat.exists
+- name: build CA and certs for server and client
+  shell: cd {{ ca_dir }}; source vars; ./clean-all; ./pkitool --initca; ./pkitool --server server;  ./pkitool client; ./pkitool laptop; ./pkitool desktop
+- name: build dh
+  shell: cd {{ ca_dir }}; source vars; ./build-dh
+- name: mkdir {{ ovpn_dir }}
+  become: yes
+  become_user: root
+  file:
+    path: "{{ ovpn_dir }}"
+    state: directory
+- name: Check for server config file
+  stat:
+    path: "{{ovpn_dir}}/server.conf.gz"
+  register: check_server_config
+- name: copy sample server config
+  become: yes
+  become_user: root
+  shell: cp /usr/share/doc/openvpn/examples/sample-config-files/server.conf.gz {{ ovpn_dir }}
+  when: not check_server_config.stat.exists
+- name: unzip server config
+  become: yes
+  become_user: root
+  shell: gzip -f -d server.conf.gz
+  args:
+    chdir: "{{ovpn_dir}}"
+  when: not check_server_config.stat.exists
+- name: Put subnet in config
+  become: yes
+  become_user: root
+  lineinfile:
+    path: "{{ovpn_dir}}/server.conf"
+    regexp: '^;push "route '
+    line: "{{item}}"
+  with_items:
+    - push "route {{ansible_default_ipv4.network}} {{ansible_default_ipv4.netmask}}"
+    - push "route 10.233.0.0 255.255.0.0"
+- name: Set kube route in rc.local
+  become: yes
+  become_user: root
+  lineinfile:
+    path: "/etc/rc.local"
+    insertbefore: "^exit 0"
+    line: "ip route replace 10.233.0.0/16 via {{kube_ctlr_ip}}"
+- name: Set kube route
+  become: yes
+  become_user: root
+  shell: ip route replace 10.233.0.0/16 via {{kube_ctlr_ip}}
+- name: Change proto to tcp in config
+  become: yes
+  become_user: root
+  lineinfile:
+    path: "{{ovpn_dir}}/server.conf"
+    regexp: '^proto udp'
+    line: 'proto tcp'
+- name: Copy cert files
+  become: yes
+  become_user: root
+  shell: cp {{ca_dir}}/keys/{{item}} {{ovpn_dir}}
+  with_items:
+    - ca.crt
+    - server.crt
+    - server.key
+    - dh2048.pem
+- name: Start openvpn server
+  become: yes
+  become_user: root
+  systemd:
+    name: openvpn@server
+    enabled: yes
+    state: restarted
+- name: Create client dir {{ovpn_client_dir}} on localhost
+  file:
+    path: "{{ovpn_client_dir}}"
+    state: directory
+  delegate_to: 127.0.0.1  
+- name: Copy client.conf and certs
+  fetch:
+    src: "{{item}}"
+    dest: "{{ovpn_client_dir}}/"
+    flat: yes
+  with_items:
+    - "/usr/share/doc/openvpn/examples/sample-config-files/client.conf"
+    - "{{ca_dir}}/keys/ca.crt"
+    - "{{ca_dir}}/keys/client.crt"
+    - "{{ca_dir}}/keys/client.key"
+- name: Place ip in client config
+  lineinfile:
+    path: "{{ovpn_client_dir}}/client.conf"
+    regexp: "^remote.*1194"
+    line: "remote {{inventory_hostname}} 1194"
+    state: "{{item}}"
+  with_items:
+    - absent
+    - present
+  delegate_to: 127.0.0.1
+- name: Change proto to TCP in client config
+  lineinfile:
+    path: "{{ovpn_client_dir}}/client.conf"
+    regexp: "^proto udp"
+    line: "proto tcp"
+    state: "{{item}}"
+  with_items:
+    - absent
+    - present
+  delegate_to: 127.0.0.1
+- name: Start client
+  shell: sudo openvpn --config client.conf --daemon openvpn-kube
+  args:
+    chdir: "{{ovpn_client_dir}}/"
+  delegate_to: 127.0.0.1
+- name: Copy laptop config
+  shell: "cp /usr/share/doc/openvpn/examples/sample-config-files/client.conf laptop.conf"
+- name: Place ip in laptop config
+  lineinfile:
+    path: "laptop.conf"
+    regexp: "^remote.*1194"
+    line: "remote {{inventory_hostname}} 1194"
+    state: "{{item}}"
+  with_items:
+    - absent
+    - present
+- name: Change proto to TCP in laptop config
+  lineinfile:
+    path: "laptop.conf"
+    regexp: "^proto udp"
+    line: "proto tcp"
+    state: "{{item}}"
+  with_items:
+    - absent
+    - present
+- name: Place certs in laptop config
+  lineinfile:
+    path: "laptop.conf"
+    regexp: "{{item.regexp}}"
+    line: "{{item.line}}"
+    state: present
+  with_items:
+    - { regexp: '^cert client.crt', line: 'cert laptop.crt' }
+    - { regexp: '^key client.key', line: 'key laptop.key' }
+- name: Prepare laptop.sh
+  template:
+    src: laptop.sh.tpl
+    dest: /home/ubuntu/laptop.sh
+    mode: 0700
+- name: Wait 120 seconds for port 22 to become open and contain "OpenSSH"
+  wait_for:
+    port: 22
+    host: '{{ ansible_default_ipv4.address }}'
+    search_regex: OpenSSH
+    delay: 1
+    timeout: 120
+  connection: local
+

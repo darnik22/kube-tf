@@ -1,0 +1,526 @@
+{
+    "version": 3,
+    "terraform_version": "0.10.8",
+    "serial": 8,
+    "lineage": "6381b2aa-26ee-4f00-aff8-8c3bde945adc",
+    "modules": [
+        {
+            "path": [
+                "root"
+            ],
+            "outputs": {},
+            "resources": {},
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "compute"
+            ],
+            "outputs": {},
+            "resources": {
+                "openstack_compute_instance_v2.bastion": {
+                    "type": "openstack_compute_instance_v2",
+                    "depends_on": [
+                        "openstack_compute_keypair_v2.k8s",
+                        "openstack_compute_secgroup_v2.bastion",
+                        "openstack_compute_secgroup_v2.k8s"
+                    ],
+                    "primary": {
+                        "id": "fcb4b647-10e9-48d3-9651-d0c920b20219",
+                        "attributes": {
+                            "access_ip_v4": "10.0.0.35",
+                            "access_ip_v6": "",
+                            "all_metadata.%": "3",
+                            "all_metadata.depends_on": "1a68bec7-b05f-4f03-8915-614fec047880",
+                            "all_metadata.kubespray_groups": "bastion",
+                            "all_metadata.ssh_user": "ubuntu",
+                            "availability_zone": "eu-de-02",
+                            "flavor_id": "h1.large.8",
+                            "flavor_name": "h1.large.8",
+                            "force_delete": "false",
+                            "id": "fcb4b647-10e9-48d3-9651-d0c920b20219",
+                            "image_id": "c7e41d8d-58cc-477c-9f13-3b5c65c18e2f",
+                            "image_name": "Community_Ubuntu_16.04_TSI_20171208_0",
+                            "key_pair": "kubernetes-example",
+                            "metadata.%": "3",
+                            "metadata.depends_on": "1a68bec7-b05f-4f03-8915-614fec047880",
+                            "metadata.kubespray_groups": "bastion",
+                            "metadata.ssh_user": "ubuntu",
+                            "name": "example-bastion-1",
+                            "network.#": "1",
+                            "network.0.access_network": "false",
+                            "network.0.fixed_ip_v4": "10.0.0.35",
+                            "network.0.fixed_ip_v6": "",
+                            "network.0.floating_ip": "",
+                            "network.0.mac": "fa:16:3e:02:74:f1",
+                            "network.0.name": "internal",
+                            "network.0.port": "",
+                            "network.0.uuid": "e3626c6f-bf35-4872-9747-5ffdd8ca6758",
+                            "region": "",
+                            "security_groups.#": "3",
+                            "security_groups.2779334175": "example-k8s",
+                            "security_groups.3514685919": "example-bastion",
+                            "security_groups.3814588639": "default",
+                            "stop_before_destroy": "false",
+                            "user_data": "3a937d1ffc17d609f48d35a671f7e872832f380a"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 1800000000000,
+                                "delete": 1800000000000,
+                                "update": 1800000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_compute_instance_v2.k8s_master_no_floating_ip": {
+                    "type": "openstack_compute_instance_v2",
+                    "depends_on": [
+                        "openstack_compute_keypair_v2.k8s",
+                        "openstack_compute_secgroup_v2.k8s",
+                        "openstack_compute_secgroup_v2.k8s_master"
+                    ],
+                    "primary": {
+                        "id": "3eb3a6d2-d4cb-48ee-baab-95021add92b6",
+                        "attributes": {
+                            "access_ip_v4": "10.0.0.81",
+                            "access_ip_v6": "",
+                            "all_metadata.%": "3",
+                            "all_metadata.depends_on": "1a68bec7-b05f-4f03-8915-614fec047880",
+                            "all_metadata.kubespray_groups": "etcd,kube-master,kube-node,k8s-cluster,vault,no-floating",
+                            "all_metadata.ssh_user": "ubuntu",
+                            "availability_zone": "eu-de-02",
+                            "flavor_id": "h1.large.8",
+                            "flavor_name": "h1.large.8",
+                            "force_delete": "false",
+                            "id": "3eb3a6d2-d4cb-48ee-baab-95021add92b6",
+                            "image_id": "c7e41d8d-58cc-477c-9f13-3b5c65c18e2f",
+                            "image_name": "Community_Ubuntu_16.04_TSI_20171208_0",
+                            "key_pair": "kubernetes-example",
+                            "metadata.%": "3",
+                            "metadata.depends_on": "1a68bec7-b05f-4f03-8915-614fec047880",
+                            "metadata.kubespray_groups": "etcd,kube-master,kube-node,k8s-cluster,vault,no-floating",
+                            "metadata.ssh_user": "ubuntu",
+                            "name": "example-k8s-master-nf-1",
+                            "network.#": "1",
+                            "network.0.access_network": "false",
+                            "network.0.fixed_ip_v4": "10.0.0.81",
+                            "network.0.fixed_ip_v6": "",
+                            "network.0.floating_ip": "",
+                            "network.0.mac": "fa:16:3e:be:5a:d2",
+                            "network.0.name": "internal",
+                            "network.0.port": "",
+                            "network.0.uuid": "e3626c6f-bf35-4872-9747-5ffdd8ca6758",
+                            "region": "",
+                            "security_groups.#": "3",
+                            "security_groups.2779334175": "example-k8s",
+                            "security_groups.3772290257": "example-k8s-master",
+                            "security_groups.3814588639": "default",
+                            "stop_before_destroy": "false",
+                            "user_data": "3a937d1ffc17d609f48d35a671f7e872832f380a"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 1800000000000,
+                                "delete": 1800000000000,
+                                "update": 1800000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_compute_instance_v2.k8s_node_no_floating_ip": {
+                    "type": "openstack_compute_instance_v2",
+                    "depends_on": [
+                        "openstack_compute_keypair_v2.k8s",
+                        "openstack_compute_secgroup_v2.k8s"
+                    ],
+                    "primary": {
+                        "id": "937d4933-ce42-4ad6-98f5-98795f177816",
+                        "attributes": {
+                            "access_ip_v4": "10.0.0.94",
+                            "access_ip_v6": "",
+                            "all_metadata.%": "3",
+                            "all_metadata.depends_on": "1a68bec7-b05f-4f03-8915-614fec047880",
+                            "all_metadata.kubespray_groups": "kube-node,k8s-cluster,no-floating",
+                            "all_metadata.ssh_user": "ubuntu",
+                            "availability_zone": "eu-de-02",
+                            "flavor_id": "h1.large.8",
+                            "flavor_name": "h1.large.8",
+                            "force_delete": "false",
+                            "id": "937d4933-ce42-4ad6-98f5-98795f177816",
+                            "image_id": "c7e41d8d-58cc-477c-9f13-3b5c65c18e2f",
+                            "image_name": "Community_Ubuntu_16.04_TSI_20171208_0",
+                            "key_pair": "kubernetes-example",
+                            "metadata.%": "3",
+                            "metadata.depends_on": "1a68bec7-b05f-4f03-8915-614fec047880",
+                            "metadata.kubespray_groups": "kube-node,k8s-cluster,no-floating",
+                            "metadata.ssh_user": "ubuntu",
+                            "name": "example-k8s-node-nf-1",
+                            "network.#": "1",
+                            "network.0.access_network": "false",
+                            "network.0.fixed_ip_v4": "10.0.0.94",
+                            "network.0.fixed_ip_v6": "",
+                            "network.0.floating_ip": "",
+                            "network.0.mac": "fa:16:3e:c0:29:c3",
+                            "network.0.name": "internal",
+                            "network.0.port": "",
+                            "network.0.uuid": "e3626c6f-bf35-4872-9747-5ffdd8ca6758",
+                            "region": "",
+                            "security_groups.#": "2",
+                            "security_groups.2779334175": "example-k8s",
+                            "security_groups.3814588639": "default",
+                            "stop_before_destroy": "false",
+                            "user_data": "3a937d1ffc17d609f48d35a671f7e872832f380a"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 1800000000000,
+                                "delete": 1800000000000,
+                                "update": 1800000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_compute_keypair_v2.k8s": {
+                    "type": "openstack_compute_keypair_v2",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "kubernetes-example",
+                        "attributes": {
+                            "id": "kubernetes-example",
+                            "name": "kubernetes-example",
+                            "public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAtQTjk+AQfb41PhUBCBCIn2ob+a4HyL6R71/pl5tsGoeXFtaw3syJ4uVNSVqWTYP3nmp/voPok4p26HkXLwIeCkcT+Wq4NiFhzOtL+/UNplHnEt/v1jvQfyLs6ld97kO5Y222XvaGtZVgoZxMKybJNml6SID8WjaQJ2LRbftCMaTVYIGn3uucs2pHyFtIEtWdHonC1CdJk3x1sYyN0t/VmuN212ImnGSeOjWJOoAPxi334vFI5HuY9zqUKjJ5NPznOO/bPqAySPZ/FI20C9np4SlUtOaD2XHbhGalzAjHNFMOJSGv0FzLILiUOjS/RR/t+abhAW+IY3XQ5NW7QRS4/Q== plgnikolow@ui.cyf-kr.edu.pl",
+                            "region": ""
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_compute_secgroup_v2.bastion": {
+                    "type": "openstack_compute_secgroup_v2",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "c1baffef-66a8-4a0e-b21b-0c1b08a8e1b4",
+                        "attributes": {
+                            "description": "example - Bastion Server",
+                            "id": "c1baffef-66a8-4a0e-b21b-0c1b08a8e1b4",
+                            "name": "example-bastion",
+                            "region": "",
+                            "rule.#": "1",
+                            "rule.836640770.cidr": "0.0.0.0/0",
+                            "rule.836640770.from_group_id": "",
+                            "rule.836640770.from_port": "22",
+                            "rule.836640770.id": "061d08f5-0ad8-46ca-a3ba-331a0b82a4b8",
+                            "rule.836640770.ip_protocol": "tcp",
+                            "rule.836640770.self": "false",
+                            "rule.836640770.to_port": "22"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "delete": 600000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_compute_secgroup_v2.k8s": {
+                    "type": "openstack_compute_secgroup_v2",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "d79a67f7-1f87-4b26-a516-994f3eb31a53",
+                        "attributes": {
+                            "description": "example - Kubernetes",
+                            "id": "d79a67f7-1f87-4b26-a516-994f3eb31a53",
+                            "name": "example-k8s",
+                            "region": "",
+                            "rule.#": "4",
+                            "rule.112275015.cidr": "",
+                            "rule.112275015.from_group_id": "",
+                            "rule.112275015.from_port": "1",
+                            "rule.112275015.id": "b8ff12c9-5d16-427a-85c4-bd6831c5ea99",
+                            "rule.112275015.ip_protocol": "tcp",
+                            "rule.112275015.self": "true",
+                            "rule.112275015.to_port": "65535",
+                            "rule.2180185248.cidr": "0.0.0.0/0",
+                            "rule.2180185248.from_group_id": "",
+                            "rule.2180185248.from_port": "-1",
+                            "rule.2180185248.id": "9f111b78-e147-4034-91a1-47b44f659751",
+                            "rule.2180185248.ip_protocol": "icmp",
+                            "rule.2180185248.self": "false",
+                            "rule.2180185248.to_port": "-1",
+                            "rule.3267409695.cidr": "",
+                            "rule.3267409695.from_group_id": "",
+                            "rule.3267409695.from_port": "-1",
+                            "rule.3267409695.id": "403a8998-8517-463a-8c0b-6d7cf92066f7",
+                            "rule.3267409695.ip_protocol": "icmp",
+                            "rule.3267409695.self": "true",
+                            "rule.3267409695.to_port": "-1",
+                            "rule.635693822.cidr": "",
+                            "rule.635693822.from_group_id": "",
+                            "rule.635693822.from_port": "1",
+                            "rule.635693822.id": "1b87ec07-fbb9-496c-b72a-49d8e619a987",
+                            "rule.635693822.ip_protocol": "udp",
+                            "rule.635693822.self": "true",
+                            "rule.635693822.to_port": "65535"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "delete": 600000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_compute_secgroup_v2.k8s_master": {
+                    "type": "openstack_compute_secgroup_v2",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "326a9be0-8621-4f7e-9538-bd5c2162105c",
+                        "attributes": {
+                            "description": "example - Kubernetes Master",
+                            "id": "326a9be0-8621-4f7e-9538-bd5c2162105c",
+                            "name": "example-k8s-master",
+                            "region": "",
+                            "rule.#": "1",
+                            "rule.1538146988.cidr": "0.0.0.0/0",
+                            "rule.1538146988.from_group_id": "",
+                            "rule.1538146988.from_port": "6443",
+                            "rule.1538146988.id": "c033da1b-7da3-45a8-8d6e-4597c747d225",
+                            "rule.1538146988.ip_protocol": "tcp",
+                            "rule.1538146988.self": "false",
+                            "rule.1538146988.to_port": "6443"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "delete": 600000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                }
+            },
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "ips"
+            ],
+            "outputs": {
+                "bastion_fips": {
+                    "sensitive": false,
+                    "type": "list",
+                    "value": [
+                        "80.158.18.98"
+                    ]
+                },
+                "k8s_master_fips": {
+                    "sensitive": false,
+                    "type": "list",
+                    "value": []
+                },
+                "k8s_node_fips": {
+                    "sensitive": false,
+                    "type": "list",
+                    "value": []
+                }
+            },
+            "resources": {
+                "null_resource.dummy_dependency": {
+                    "type": "null_resource",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "8773988123696295336",
+                        "attributes": {
+                            "id": "8773988123696295336",
+                            "triggers.%": "1",
+                            "triggers.dependency_id": "1a68bec7-b05f-4f03-8915-614fec047880"
+                        },
+                        "meta": {},
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_networking_floatingip_v2.bastion": {
+                    "type": "openstack_networking_floatingip_v2",
+                    "depends_on": [
+                        "null_resource.dummy_dependency"
+                    ],
+                    "primary": {
+                        "id": "1d45c97a-8b7c-4c2d-a71a-303400d3fa39",
+                        "attributes": {
+                            "address": "80.158.18.98",
+                            "fixed_ip": "",
+                            "id": "1d45c97a-8b7c-4c2d-a71a-303400d3fa39",
+                            "pool": "admin_external_net",
+                            "port_id": "",
+                            "region": "",
+                            "tenant_id": "50857e5331d84abeb29d0ab3478361ea"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 600000000000,
+                                "delete": 600000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                }
+            },
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "network"
+            ],
+            "outputs": {
+                "network_id": {
+                    "sensitive": false,
+                    "type": "string",
+                    "value": "8c6bb101-d90d-40d0-a669-083869d27c41"
+                },
+                "router_id": {
+                    "sensitive": false,
+                    "type": "string",
+                    "value": "1a68bec7-b05f-4f03-8915-614fec047880"
+                }
+            },
+            "resources": {
+                "openstack_networking_network_v2.k8s": {
+                    "type": "openstack_networking_network_v2",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "e3626c6f-bf35-4872-9747-5ffdd8ca6758",
+                        "attributes": {
+                            "admin_state_up": "true",
+                            "id": "e3626c6f-bf35-4872-9747-5ffdd8ca6758",
+                            "name": "internal",
+                            "region": "",
+                            "shared": "false",
+                            "tenant_id": "50857e5331d84abeb29d0ab3478361ea"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 600000000000,
+                                "delete": 600000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_networking_router_interface_v2.k8s": {
+                    "type": "openstack_networking_router_interface_v2",
+                    "depends_on": [
+                        "openstack_networking_router_v2.k8s",
+                        "openstack_networking_subnet_v2.k8s"
+                    ],
+                    "primary": {
+                        "id": "1a68bec7-b05f-4f03-8915-614fec047880",
+                        "attributes": {
+                            "id": "1a68bec7-b05f-4f03-8915-614fec047880",
+                            "port_id": "1a68bec7-b05f-4f03-8915-614fec047880",
+                            "region": "",
+                            "router_id": "9378ebd9-5581-4df6-b1ea-8526c8554431",
+                            "subnet_id": "8c6bb101-d90d-40d0-a669-083869d27c41"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 600000000000,
+                                "delete": 600000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_networking_router_v2.k8s": {
+                    "type": "openstack_networking_router_v2",
+                    "depends_on": [],
+                    "primary": {
+                        "id": "9378ebd9-5581-4df6-b1ea-8526c8554431",
+                        "attributes": {
+                            "admin_state_up": "true",
+                            "distributed": "false",
+                            "enable_snat": "false",
+                            "external_gateway": "0a2228f2-7f8a-45f1-8e09-9039e1d09975",
+                            "id": "9378ebd9-5581-4df6-b1ea-8526c8554431",
+                            "name": "example-router",
+                            "region": "",
+                            "tenant_id": "50857e5331d84abeb29d0ab3478361ea"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 600000000000,
+                                "delete": 600000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                },
+                "openstack_networking_subnet_v2.k8s": {
+                    "type": "openstack_networking_subnet_v2",
+                    "depends_on": [
+                        "openstack_networking_network_v2.k8s"
+                    ],
+                    "primary": {
+                        "id": "8c6bb101-d90d-40d0-a669-083869d27c41",
+                        "attributes": {
+                            "allocation_pools.#": "1",
+                            "allocation_pools.0.end": "10.0.0.251",
+                            "allocation_pools.0.start": "10.0.0.2",
+                            "cidr": "10.0.0.0/24",
+                            "dns_nameservers.#": "0",
+                            "enable_dhcp": "true",
+                            "gateway_ip": "10.0.0.1",
+                            "host_routes.#": "0",
+                            "id": "8c6bb101-d90d-40d0-a669-083869d27c41",
+                            "ip_version": "4",
+                            "name": "example-internal-network",
+                            "network_id": "e3626c6f-bf35-4872-9747-5ffdd8ca6758",
+                            "no_gateway": "false",
+                            "region": "",
+                            "tenant_id": "50857e5331d84abeb29d0ab3478361ea"
+                        },
+                        "meta": {
+                            "e2bfb730-ecaa-11e6-8f88-34363bc7c4c0": {
+                                "create": 600000000000,
+                                "delete": 600000000000
+                            }
+                        },
+                        "tainted": false
+                    },
+                    "deposed": [],
+                    "provider": ""
+                }
+            },
+            "depends_on": []
+        }
+    ]
+}
