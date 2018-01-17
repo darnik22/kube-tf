@@ -83,7 +83,15 @@ variable "public_key_file" {
 }
 
 variable "sources_list_dest" {
-#  default = "/dev/null"
-  default = "/etc/apt/sources.list"   # Use this if OTC debmirror has problems
+  default = "/dev/null"
+#  default = "/etc/apt/sources.list"   # Use this if OTC debmirror has problems
+}
+
+variable "dnszone" {
+#  default = ""
+}
+
+variable "email" {
+#  default = ""
 }
 

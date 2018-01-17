@@ -1,0 +1,25 @@
+- hosts: k8s-cluster
+  become: yes
+  become_user: root
+  tasks:
+    - name: Place kube domains in resolv.conf
+      lineinfile:
+        regexp: "^search"
+        line: "search default.svc.kube.{{dnszone}} svc.kube.{{dnszone}} kube.{{dnszone}} openstacklocal"
+        path: "/etc/resolv.conf"
+
+- hosts: kube-master
+  tasks:
+    - name: Clone heapster
+      run_once: true
+      git:
+        repo: https://github.com/kubernetes/heapster.git
+        dest: /home/ubuntu/heapster
+    - name: Deploy influxdb
+      run_once: true
+      ignore_errors: yes
+      shell: kubectl create -f heapster/deploy/kube-config/influxdb/
+    - name: Deploy heapster
+      run_once: true
+      ignore_errors: yes
+      shell: kubectl create -f heapster/deploy/kube-config/rbac/heapster-rbac.yaml

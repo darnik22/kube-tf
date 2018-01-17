@@ -9,5 +9,5 @@ scp ubuntu@{{inventory_hostname}}:laptop.conf .
 openvpn --config laptop.conf > laptop.log 2>&1 &
 sleep 15
 ssh-keygen -R {{kube_ctlr_ip}}
-scp ubuntu@{{kube_ctlr_ip}}:admin.conf .
+scp ubuntu@{{kube_ctlr_ip}}:playbooks/kubespray/artifacts/admin.conf .
 kubectl --kubeconfig admin.conf proxy

@@ -13,3 +13,7 @@ Host PROJECT-*
         StrictHostKeyChecking no
         VerifyHostKeyDNS no
         ForwardAgent yes
+Host 192.168.*
+        StrictHostKeyChecking no
+        VerifyHostKeyDNS no
+        ForwardAgent yes
