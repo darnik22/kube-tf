@@ -29,7 +29,7 @@ terraform apply -var-file parameter.tvars
 ```
 
 ## Accessing your cluster
-After a successful built the public and private IP of the k8s cluster master node are displayed. In order have access to the private addresses you need to run the VPN server, which has been prepared. If the terraform has been run from a linux machine then on that machine there a VPN client has been run already. You can also use the "scp ubuntu@..." commands displayed after successful terraform execution to start a VPN connection and kube proxy on your laptop or desktop. An example commands looks like:
+After a successful built the public and private IP of the k8s cluster master node are displayed. In order to have access to the private addresses you need to connect to the VPN server, which has been prepared. If the terraform has been run from a linux machine then on that machine a VPN client has been run already by the scripts. You can also use the "scp ubuntu@..." commands displayed after successful terraform execution to manually start a VPN connection and kube proxy on another machine, e.g., your laptop or desktop. An example commands looks like:
 ```
 scp ubuntu@80.158.20.236:laptop.sh .; ./laptop.sh
 ```
