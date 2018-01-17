@@ -112,7 +112,7 @@ resource "null_resource" "provision-work" {
 }
 
 resource "null_resource" "provision-vpn" {
-  depends_on = ["openstack_networking_floatingip_v2.vpn"]
+  depends_on = ["openstack_networking_floatingip_v2.vpn", "null_resource.provision-local-setup"]
   connection {
     host     = "${openstack_networking_floatingip_v2.vpn.address}"
     user     = "${var.ssh_user_name}"
